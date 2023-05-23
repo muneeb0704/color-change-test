@@ -17,7 +17,7 @@ class MyAppContainerStandard extends StatelessWidget {
       height: size.height,
       padding: padding,
       decoration: BoxDecoration(
-        color: ColorConstant.scaffoldBackgroundColor,
+        color: color ?? ColorConstant.scaffoldBackgroundColor,
       ),
       child: child,
     );

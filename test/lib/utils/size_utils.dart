@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 Size size = WidgetsBinding.instance.window.physicalSize /
     WidgetsBinding.instance.window.devicePixelRatio;
 
+const num SCREEN_WIDTH = 375;
+const num SCREEN_HEIGHT = 812;
+const num SCREEN_STATUS_BAR = 44;
+
 get width {
   return size.width;
 }
@@ -15,4 +19,87 @@ get height {
       .bottom;
   num screenHeight = size.height - statusBar - bottomBar;
   return screenHeight;
+}
+
+double getHorizontalSize(double px) {
+  return ((px * width) / SCREEN_WIDTH);
+}
+
+double getVerticalSize(double px) {
+  return ((px * height) / (SCREEN_HEIGHT - SCREEN_STATUS_BAR));
+}
+
+double getSize(double px) {
+  var height = getVerticalSize(px);
+  var width = getHorizontalSize(px);
+  if (height < width) {
+    return height.toInt().toDouble();
+  } else {
+    return width.toInt().toDouble();
+  }
+}
+
+double getFontSize(double px) {
+  return getSize(px);
+}
+
+EdgeInsetsGeometry getPadding({
+  double? all,
+  double? left,
+  double? top,
+  double? right,
+  double? bottom,
+}) {
+  return getMarginOrPadding(
+    all: all,
+    left: left,
+    top: top,
+    right: right,
+    bottom: bottom,
+  );
+}
+
+EdgeInsetsGeometry getMargin({
+  double? all,
+  double? left,
+  double? top,
+  double? right,
+  double? bottom,
+}) {
+  return getMarginOrPadding(
+    all: all,
+    left: left,
+    top: top,
+    right: right,
+    bottom: bottom,
+  );
+}
+
+EdgeInsetsGeometry getMarginOrPadding({
+  double? all,
+  double? left,
+  double? top,
+  double? right,
+  double? bottom,
+}) {
+  if (all != null) {
+    left = all;
+    top = all;
+    right = all;
+    bottom = all;
+  }
+  return EdgeInsets.only(
+    left: getHorizontalSize(
+      left ?? 0,
+    ),
+    top: getVerticalSize(
+      top ?? 0,
+    ),
+    right: getHorizontalSize(
+      right ?? 0,
+    ),
+    bottom: getVerticalSize(
+      bottom ?? 0,
+    ),
+  );
 }
